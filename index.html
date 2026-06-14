@@ -6,7 +6,32 @@
   <title>T-Shirts</title>
 </head>
 <body>
-  
-  
+  <div id="root"></div>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel" data-type="module">
+    import React, { useState, useEffect } from "https://esm.sh/react@19";
+    import ReactDOM from "https://esm.sh/react-dom@19/client";
+    import tshirts from './t-shirts.js'
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+
+    function App() {
+      const [shirts, setShirts] = useState(tshirts);
+
+        return (
+          <div>
+            <h1>T-Shirt Store</h1>
+            <p>Total Shirts: {shirts.length}</p>
+          </div>
+      );
+}
+
+root.render(<App />);
+
+    
+
+
+
+  </script>
 </body>
 </html>

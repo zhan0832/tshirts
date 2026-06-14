@@ -63,3 +63,5 @@ const tshirts = [
     quantity: 1
   }
 ]
+
+export default tshirts
