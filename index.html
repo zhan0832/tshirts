@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <title>T-Shirts</title>
 </head>
+
 <body>
-  <div id="root"></div>
+  <div id="root" class="container"></div>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel" data-type="module">
     import React, { useState, useEffect } from "https://esm.sh/react@19";
@@ -17,38 +19,89 @@
     const root = ReactDOM.createRoot(document.getElementById("root"));
 
     function App() {
-  const [shirts, setShirts] = useState(tshirts);
+      const [shirts, setShirts] = useState(tshirts);
 
-  return (
-    <div>
-      <h1>T-Shirt Store</h1>
+      function updateQuantity(title, quantity) {
+        setShirts((prevShirts) =>
+          prevShirts.map((shirt) =>
+            shirt.title === title ? { ...shirt, quantity } : shirt
+          )
+        );
+      }
 
-      <ul>
-        {shirts.map((shirt) => (
-          <li key={shirt.title}>
-            <h2>{shirt.title}</h2>
+      function handleQuantityChange(event, title) {
+        const quantity = parseInt(event.target.value);
+        updateQuantity(title, quantity);
+      }
 
-            <img
-              src={`images/${shirt.image}`}
-              alt={shirt.title}
-              width="200"
-            />
+      function buyHandler(title) {
+        setShirts((prevShirts) =>
+          prevShirts.map((shirt) =>
+            shirt.title === title
+              ? {
+                ...shirt,
+                stock: shirt.stock - shirt.quantity,
+                quantity: 1
+              }
+              : shirt
+          )
+        );
+      }
+      return (
+        <div>
+          <h1>T-Shirt Store</h1>
+          <div className="grid">
+            {shirts.map((shirt) => (
+              <div className="tshirt" key={shirt.title}>
+                <h2>{shirt.title}</h2>
 
-            <p>Price: ${shirt.price}</p>
-            {shirt.stock > 0 ? (<p>Stock: {shirt.stock}</p>) : (<p>Out of Stock</p>)}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+                <img
+                  src={`images/${shirt.image}`}
+                  alt={shirt.title}
+                />
 
-root.render(<App />);
+                <p>Price: ${shirt.price}</p>
 
-    
+                {shirt.stock > 0 ? (
+                  <>
+                    <p>Stock: {shirt.stock}</p>
+
+                    <label>
+                      Quantity:
+                      <select value={shirt.quantity} onChange={(e) => handleQuantityChange(e, shirt.title)}>
+                        {[...Array(shirt.stock)].map((_, i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+
+                    <button className="btn" onClick={() => buyHandler(shirt.title)}>Buy</button>
+                  </>
+                ) : (
+                  <p>Out of Stock</p>
+                )}
+
+
+
+              </div>
+
+            ))}
+
+          </div>
+        </div>
+
+      );
+    }
+
+    root.render(<App />);
+
+
 
 
 
   </script>
 </body>
+
 </html>
