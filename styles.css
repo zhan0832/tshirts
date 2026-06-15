@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+.tshirt {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+}
+.tshirt img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.tshirt h2 {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+.tshirt p {
+  font-size: 1em;
+  color: #555;
+}
+.tshirt .price {
+  font-size: 1.2em;
+  color: #000;
+  margin-top: 10px;
+}
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.button:hover {
+  background-color: #0056b3;
+}

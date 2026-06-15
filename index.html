@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
   <title>T-Shirts</title>
 </head>
 <body>
@@ -16,14 +17,30 @@
     const root = ReactDOM.createRoot(document.getElementById("root"));
 
     function App() {
-      const [shirts, setShirts] = useState(tshirts);
+  const [shirts, setShirts] = useState(tshirts);
 
-        return (
-          <div>
-            <h1>T-Shirt Store</h1>
-            <p>Total Shirts: {shirts.length}</p>
-          </div>
-      );
+  return (
+    <div>
+      <h1>T-Shirt Store</h1>
+
+      <ul>
+        {shirts.map((shirt) => (
+          <li key={shirt.title}>
+            <h2>{shirt.title}</h2>
+
+            <img
+              src={`images/${shirt.image}`}
+              alt={shirt.title}
+              width="200"
+            />
+
+            <p>Price: ${shirt.price}</p>
+            {shirt.stock > 0 ? (<p>Stock: {shirt.stock}</p>) : (<p>Out of Stock</p>)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 root.render(<App />);
