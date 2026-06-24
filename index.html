@@ -9,29 +9,41 @@
 </head>
 
 <body>
-  <div id="root" class="container"></div>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="text/babel" data-type="module">
-    import React, { useState, useEffect } from "https://esm.sh/react@19";
-    import ReactDOM from "https://esm.sh/react-dom@19/client";
-    import tshirts from './t-shirts.js'
 
-    const root = ReactDOM.createRoot(document.getElementById("root"));
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+
+  <script type="text/babel" data-type="module" data-presets="react">
+
+    import React, { useState } from "https://esm.sh/react@18.2.0?dev";
+    import ReactDOM from "https://esm.sh/react-dom@18.2.0/client?dev";
+
+    import tshirts from "./t-shirts.js";
+
+    const root = ReactDOM.createRoot(
+      document.getElementById("root")
+    );
 
     function App() {
+
       const [shirts, setShirts] = useState(tshirts);
 
       function updateQuantity(title, quantity) {
         setShirts((prevShirts) =>
           prevShirts.map((shirt) =>
-            shirt.title === title ? { ...shirt, quantity } : shirt
+            shirt.title === title
+              ? { ...shirt, quantity }
+              : shirt
           )
         );
       }
 
       function handleQuantityChange(event, title) {
-        const quantity = parseInt(event.target.value);
-        updateQuantity(title, quantity);
+        updateQuantity(
+          title,
+          parseInt(event.target.value)
+        );
       }
 
       function buyHandler(title) {
@@ -47,12 +59,20 @@
           )
         );
       }
+
       return (
         <div>
           <h1>T-Shirt Store</h1>
+
           <div className="grid">
+
             {shirts.map((shirt) => (
-              <div className="tshirt" key={shirt.title}>
+
+              <div
+                className="tshirt"
+                key={shirt.title}
+              >
+
                 <h2>{shirt.title}</h2>
 
                 <img
@@ -60,48 +80,72 @@
                   alt={shirt.title}
                 />
 
-                <p>Price: ${shirt.price}</p>
+                <p>
+                  Price: ${shirt.price}
+                </p>
 
                 {shirt.stock > 0 ? (
-                  <>
-                    <p>Stock: {shirt.stock}</p>
+
+                  <div>
+
+                    <p>
+                      Stock: {shirt.stock}
+                    </p>
 
                     <label>
                       Quantity:
-                      <select value={shirt.quantity} onChange={(e) => handleQuantityChange(e, shirt.title)}>
-                        {[...Array(shirt.stock)].map((_, i) => (
-                          <option key={i + 1} value={i + 1}>
-                            {i + 1}
-                          </option>
-                        ))}
+
+                      <select
+                        value={shirt.quantity}
+                        onChange={(e) =>
+                          handleQuantityChange(
+                            e,
+                            shirt.title
+                          )
+                        }
+                      >
+
+                        {[...Array(shirt.stock)].map(
+                          (_, i) => (
+                            <option
+                              key={i + 1}
+                              value={i + 1}
+                            >
+                              {i + 1}
+                            </option>
+                          )
+                        )}
+
                       </select>
+
                     </label>
 
-                    <button className="btn" onClick={() => buyHandler(shirt.title)}>Buy</button>
-                  </>
+                    <button
+                      className="btn"
+                      onClick={() =>
+                        buyHandler(shirt.title)
+                      }
+                    >
+                      Buy
+                    </button>
+
+                  </div>
+
                 ) : (
+
                   <p>Out of Stock</p>
+
                 )}
-
-
-
               </div>
-
             ))}
-
           </div>
         </div>
-
       );
     }
-
     root.render(<App />);
 
-
-
-
-
   </script>
+
 </body>
 
 </html>
